@@ -32,7 +32,7 @@
 Image dimensions are now controlled by the `ratio` and `resolution` parameters, providing greater flexibility. The default `resolution` is set to `2k`.
 
 ```bash
-curl -X POST http://localhost:5100/v1/images/generations \
+curl -X POST http://localhost:3000/v1/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
@@ -76,7 +76,7 @@ curl -X POST http://localhost:5100/v1/images/generations \
 ```bash
 docker run -d \
   --name jimeng-api \
-  -p 5100:5100 \
+  -p 3000:3000 \
   --restart unless-stopped \
   ghcr.io/iptag/jimeng-api:latest
 ```
@@ -118,7 +118,7 @@ docker build -t jimeng-api .
 
 docker run -d \
   --name jimeng-api \
-  -p 5100:5100 \
+  -p 3000:3000 \
   --restart unless-stopped \
   jimeng-api
 ```
@@ -142,7 +142,7 @@ docker exec -it jimeng-api sh
 - ✅ **Multi-stage build**: Optimized image size (170MB)
 - ✅ **Non-root user**: Enhanced security (user:jimeng,)
 - ✅ **Health check**: Automatic service status monitoring
-- ✅ **Unified port**: Uses port 5100 both inside and outside the container
+- ✅ **Unified port**: Uses port 3000 both inside and outside the container
 - ✅ **Log management**: Structured log output
 
 ### Configuration Description
@@ -151,7 +151,7 @@ docker exec -it jimeng-api sh
 ```yaml
 name: jimeng-api
 route: src/api/routes/index.ts
-port: 5100
+port: 3000
 ```
 
 #### `configs/dev/system.yml`
@@ -180,7 +180,7 @@ This project includes a dedicated Claude Code Skill for quick image generation u
 # Start the service with Docker
 docker-compose up -d
 # or
-docker run -d --name jimeng-api -p 5100:5100 ghcr.io/iptag/jimeng-api:latest
+docker run -d --name jimeng-api -p 3000:3000 ghcr.io/iptag/jimeng-api:latest
 ```
 
 2. **Copy the skill to Claude Code's skills directory**:
@@ -227,21 +227,21 @@ For detailed usage, please refer to `jimeng-api/Skill.md`.
 
 ```bash
 # Default parameters (ratio: "1:1", resolution: "2k")
-curl -X POST http://localhost:5100/v1/images/generations \
+curl -X POST http://localhost:3000/v1/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
     "{\"model\": \"jimeng-4.5\", \"prompt\": \"A cute little cat\"}"
 
 # Example using 4K resolution
-curl -X POST http://localhost:5100/v1/images/generations \
+curl -X POST http://localhost:3000/v1/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
     "{\"model\": \"jimeng-4.5\", \"prompt\": \"Magnificent landscape, ultra-high resolution\", \"ratio\": \"16:9\", \"resolution\": \"4k\"}"
 
 # Example using intelligent ratio (system will infer 9:16 from "portrait")
-curl -X POST http://localhost:5100/v1/images/generations \
+curl -X POST http://localhost:3000/v1/images/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
@@ -298,7 +298,7 @@ curl -X POST http://localhost:5100/v1/images/generations \
 # US site uses "us-YOUR_SESSION_ID"
 # Hong Kong site uses "hk-YOUR_SESSION_ID"
 # Japan site uses "jp-YOUR_SESSION_ID"
-curl -X POST http://localhost:5100/v1/images/compositions \
+curl -X POST http://localhost:3000/v1/images/compositions \
   -H "Authorization: Bearer us-YOUR_SESSION_ID" \
   -F "prompt=A cute cat, anime style" \
   -F "model=jimeng-4.5" \
@@ -326,14 +326,14 @@ curl -X POST http://localhost:5100/v1/images/compositions \
 
 ```bash
 # Example 1: URL image style transfer (using application/json)
-curl -X POST http://localhost:5100/v1/images/compositions \
+curl -X POST http://localhost:3000/v1/images/compositions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
     "{\"model\": \"jimeng-4.5\", \"prompt\": \"Convert this photo into an oil painting style, with vibrant colors and distinct brushstrokes\", \"images\": [\"https://example.com/photo.jpg\"], \"ratio\": \"1:1\", \"resolution\": \"2k\", \"sample_strength\": 0.7}"
 
 # Example 2: Local single file upload (using multipart/form-data)
-curl -X POST http://localhost:5100/v1/images/compositions \
+curl -X POST http://localhost:3000/v1/images/compositions \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -F "prompt=A cute cat, anime style" \
   -F "model=jimeng-4.5" \
@@ -342,7 +342,7 @@ curl -X POST http://localhost:5100/v1/images/compositions \
   -F "images=@/path/to/your/local/cat.jpg"
 
 # Example 3: Local multiple file upload (using multipart/form-data)
-curl -X POST http://localhost:5100/v1/images/compositions \
+curl -X POST http://localhost:3000/v1/images/compositions \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -F "prompt=Merge these two images" \
   -F "model=jimeng-4.5" \
@@ -427,14 +427,14 @@ A: Yes. Direct upload of local files is now supported. Please refer to the "Loca
 
 ```bash
 # Example 1: Text-to-Video (0 images) - Pure text generation
-curl -X POST http://localhost:5100/v1/videos/generations \
+curl -X POST http://localhost:3000/v1/videos/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
     "{\"model\": \"jimeng-video-3.0\", \"prompt\": \"A lion running on the grassland\", \"ratio\": \"16:9\", \"resolution\": \"1080p\", \"duration\": 10}"
 
 # Example 2: Image-to-Video (1 image) - Single image as first frame
-curl -X POST http://localhost:5100/v1/videos/generations \
+curl -X POST http://localhost:3000/v1/videos/generations \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -F "prompt=A man is talking" \
   -F "model=jimeng-video-3.0" \
@@ -443,7 +443,7 @@ curl -X POST http://localhost:5100/v1/videos/generations \
   -F "image_file_1=@/path/to/your/first-frame.png"
 
 # Example 3: First-Last Frame (2 images) - Two images as first and last frames
-curl -X POST http://localhost:5100/v1/videos/generations \
+curl -X POST http://localhost:3000/v1/videos/generations \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -F "prompt=Smooth transition between scenes" \
   -F "model=jimeng-video-3.0" \
@@ -453,7 +453,7 @@ curl -X POST http://localhost:5100/v1/videos/generations \
   -F "image_file_2=@/path/to/last-frame.png"
 
 # Example 4: Image-to-Video with URL image
-curl -X POST http://localhost:5100/v1/videos/generations \
+curl -X POST http://localhost:3000/v1/videos/generations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \
@@ -466,7 +466,7 @@ curl -X POST http://localhost:5100/v1/videos/generations \
 **POST** `/v1/chat/completions`
 
 ```bash
-curl -X POST http://localhost:5100/v1/chat/completions \
+curl -X POST http://localhost:3000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_SESSION_ID" \
   -d \

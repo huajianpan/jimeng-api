@@ -11,7 +11,7 @@ dependencies: python>=3.7, requests>=2.28.0, Pillow>=9.0.0
 
 This skill enables image generation using a locally deployed Jimeng API service (Docker). It converts text prompts into high-quality images and automatically downloads them to the project's `/pic` folder. The skill supports text-to-image generation, image-to-image composition, customizable aspect ratios (1:1, 16:9, etc.), and multiple resolution levels (1k, 2k, 4k).
 
-**API Endpoint**: `http://localhost:5100`
+**API Endpoint**: `http://localhost:3000`
 
 ## When to Use This Skill
 
@@ -115,7 +115,7 @@ python scripts/generate_image.py text \
 - `--intelligent-ratio`: Enable smart ratio detection based on prompt keywords **⚠️ Only works for jimeng-4.0/jimeng-4.1/jimeng-4.5 models; other models will ignore this parameter**
 - `--negative-prompt`: Negative prompt (elements to avoid)
 - `--sample-strength`: Sampling strength (0.0-1.0)
-- `--api-url`: Custom API URL (default: `http://localhost:5100`)
+- `--api-url`: Custom API URL (default: `http://localhost:3000`)
 - `--output-dir`: Custom output directory (defaults to `project_root/pic`)
 
 ### Image-to-Image Composition
@@ -221,7 +221,7 @@ pip install requests Pillow
 ```
 User requests image generation
     ↓
-Is Jimeng API running at localhost:5100?
+Is Jimeng API running at localhost:3000?
     ├─ No → Instruct user to start Docker service
     └─ Yes → Continue
     ↓

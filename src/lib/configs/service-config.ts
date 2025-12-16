@@ -29,7 +29,7 @@ export class ServiceConfig {
         const { name, host, port, urlPrefix, bindAddress } = options || {};
         this.name = _.defaultTo(name, 'jimeng-api');
         this.host = _.defaultTo(host, '0.0.0.0');
-        this.port = _.defaultTo(port, 5566);
+        this.port = _.defaultTo(port, 3000);
         this.urlPrefix = _.defaultTo(urlPrefix, '');
         this.bindAddress = bindAddress;
     }
